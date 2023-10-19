@@ -1,0 +1,79 @@
+{% extends "store/layouts/main.html" %}
+
+{% block title %}
+{{ products.name }}
+{% endblock title %}
+
+{% block content %}
+{% include "store/inc/navbar.html" %}
+<main id="main" class="main-site">
+    <div class="container mt-5">
+            <div class="card">
+                <div class="card-body shadow">
+                    <div class="row">
+                    <div class="col-4 main-content-area">
+                        <div class="wrap-social">
+                            <a class="link-socail" href="#"><img src="{{products.product_image.url}}"
+                                    style="width:350px;height:480px;margin-left:5%" alt=""></a>
+                        </div>
+                    </div>
+                    <div class="col-8 main-content-area mt-4">
+                        <div class="wrap-product-detail product_data row">
+                            <h2 class="h4">{{products.name}}</h2>
+                            <div class="product-rating" style="color:#f4d03e">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <a href="#" class="count-review">(05 review)</a>
+                            </div>
+                            <div class="mt-2"><span style="font-weight:600">Original Price : </span><del
+                                    style="color:rgb(224, 55, 55)">₹ {{products.original_price |stringformat:'d' }}</del></div>
+                            <div class="mt-2 mb-2"><span style="font-weight:600">Price : </span><span>₹ {{products.selling_price |stringformat:'d' }}</span></div>
+                            <div class="mb-2"><span style="font-weight:600">Availability :</span> <b>
+                                    {% if products.quantity > 0 %}
+                                    <label class="badge bg-success">In Stock</label>
+                                    {% else %}
+                                    <label class="badge bg-danger">Out of Stock</label>
+                                    {% endif %}
+                                </b>
+                            </div>
+                            <div>
+                                {% csrf_token %}
+                                <input type="hidden" value="{{products.id}}" class="prod_id">
+                                <input type="hidden" name="quantity" class="form-control qty-input text-center" value="1">
+                            </div>
+                            <div>
+                                <span style="font-weight:600;">Description :</span>
+                                <p>
+                                   {{products.description}}
+                                </p>
+                            </div>
+                            <div class="col-12">
+                                {% if products.quantity > 0 %}
+                                <button type="button" class="border border-none text-white py-1 px-4 me-2 float-start cartbtn"
+                                    style="background-color:#ff0000;"><i class="fas fa-sharp fa-solid fa-cart-plus"></i> Add to cart</button>
+                                {% endif %}
+        
+                                {% if wishlist %}
+                                    <button type="button"
+                                    class="border border-none text-white py-1 px-3 me-2 float-start addToWishlist"
+                                    style="background-color:#036f22cf;"><i class="fas fa-solid fa-heart me-1"></i>Alredy in
+                                    wishlist</button>
+                                {% else %}
+                                    <button type="button"
+                                    class="border border-none text-white py-1 px-3 me-2 float-start addToWishlist"
+                                    style="background-color:#2fff00cf;"><i class="fas fa-solid fa-heart me-1"></i>Add to
+                                    wishlist</button>
+                                {% endif %}
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}
